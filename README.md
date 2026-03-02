@@ -6,11 +6,13 @@ If you like this project, consider [tipping](https://www.Ko-fi.com/robxberty)!
 
 ## Features ✨
 
-- Affordable: Designed with cost-effective components, making multi-material printing accessible.
-- Customizable Lanes: Choose between 2-lane or 4-lane configurations to suit your needs (additional lanes may be supported in the future)
-- Slacker Sensor Integration: Utilizes the Slacker Sensor for real-time monitoring of filament slack and tension through the Bowden tube, ensuring consistent filament flow.
-- Seamless Integration: Built to work flawlessly with the FriendlyFox macro package. One .cfg to add and that's it, no plugins needed!
-- Ease of Assembly: A straightforward assembly process suitable for hobbyists and newcomers alike.
+- **Affordable**: Designed with cost-effective components, making multi-material printing accessible.
+- **Customizable Lanes**: Choose between 2-lane or 4-lane configurations to suit your needs (additional lanes may be supported in the future)
+- **Slacker Sensor Integration**: Utilizes the Slacker Sensor for real-time monitoring of filament slack and tension through the Bowden tube, ensuring consistent filament flow.
+- **Dual Software Modes**: Choose your experience:
+  - 🚀 **Simple Mode**: One .cfg file, 5-minute setup, no plugins needed!
+  - 🎨 **Happy Hare Mode**: Beautiful dashboard UI with advanced features
+- **Ease of Assembly**: A straightforward assembly process suitable for hobbyists and newcomers alike.
 
 ## Table of Contents 📖
 
@@ -48,11 +50,59 @@ If you like this project, consider [tipping](https://www.Ko-fi.com/robxberty)!
 
 ## Configuration ⚙️
 
-To integrate the FoxFeeder MMU with your printer and firmware:
+Fox Feeder offers **two software modes** to suit your preferences - both use the same hardware!
 
-- Install the FriendlyFox Macro Package, simply copy the FriendlyFox.cfg file into your Klipper instance. Be sure to include it in your printer.cfg
-- Configure your slicer to define the number of active lanes.
-- Update your printer's Klipper configuration with the provided example configurations in configs/.
+### 🎯 Choose Your Interface
+
+| | **Simple Mode** 🚀 | **Happy Hare Mode** 🎨 |
+|---|---|---|
+| **Best For** | Quick setup, beginners | Clean UI, advanced features |
+| **Setup Time** | 5 minutes | 20-30 minutes |
+| **Interface** | Standard Klipper macros | Dedicated MMU dashboard |
+| **Visual Feedback** | Text-based responses | Graphs, heat maps, status panels |
+| **Configuration** | One .cfg file (`WIP_MMU.cfg`) | Four organized config files |
+| **Macro Organization** | Mixed with other printer macros | Dedicated MMU section |
+| **Statistics** | None | Gate usage, swap success rates |
+| **EndlessSpool** | Manual switching | Automatic spool failover |
+| **Spoolman Support** | ❌ | ✅ Track filament usage |
+| **Error Recovery** | Manual intervention | Automatic retry logic |
+| **Customization** | High (direct macro editing) | Very High (parameters + macros) |
+| **Learning Curve** | Easy | Moderate |
+| **Maintenance** | Simple | Professional logging & diagnostics |
+| **Switching** | Can switch anytime! | Can switch anytime! |
+
+### 📦 Installation Guide
+
+#### Simple Mode (Recommended for Beginners)
+
+1. Copy `Config/WIP_MMU.cfg` to your Klipper config directory
+2. Add to your `printer.cfg`:
+   ```ini
+   [include WIP_MMU.cfg]
+   ```
+3. Restart Klipper and run `CHECK_STATUS`
+
+**That's it!** 🎉
+
+#### Happy Hare Mode (Advanced Interface)
+
+Prefer a clean, organized UI with visual feedback? See the [**Happy Hare Integration Guide**](Config/HappyHare/README.md) for complete installation instructions.
+
+**Key Benefits:**
+- 🎨 Beautiful dashboard in Mainsail/Fluidd
+- 📊 Visual status indicators for each lane
+- 📈 Statistics and reliability tracking
+- 🔄 Professional error handling
+- 🎯 Same proven Fox Feeder hardware!
+
+### ⚙️ Basic Configuration (Both Modes)
+
+To integrate the FoxFeeder MMU with your printer:
+
+- Install the FriendlyFox Macro Package (if using Simple Mode)
+- Configure your slicer to define the number of active lanes
+- Calibrate bowden length using `MEASURE_BOWDEN` or `MMU_CALIBRATE_BOWDEN`
+- Update MCU UUID in config files to match your CAN-bus device
 
 ## Usage 🚀
 
