@@ -117,15 +117,30 @@ The sync feedback parameters need to match the physical Slacker mechanism:
 These values affect how aggressively Happy Hare corrects gear speed during printing.
 If the buffer range is wrong, the sync feedback will over-correct or under-correct.
 
+## Fox Feeder as a Happy Hare Vendor Preset
+
+Fox Feeder is designed to be its **own vendor preset** in Happy Hare — not a
+modified BoxTurtle. The Fox Feeder philosophy is simplicity:
+
+| | BoxTurtle | Fox Feeder |
+|---|---|---|
+| Encoder | No | No |
+| ESpooler (DC motors) | **Yes** | **No** (passive Slacker) |
+| Gate homing max | 300mm | 70mm |
+| Parking distance | 100mm | 23mm |
+| Final eject distance | 100mm | 0mm |
+| Sync feedback | Yes | Yes (Slacker) |
+| Pre-gate sensors | Yes | Optional |
+| LED chain | Yes | Optional |
+
+The `vendor_preset/` directory contains the exact code snippets needed to register
+Fox Feeder as a vendor in Happy Hare's `install.sh` and `extras/mmu_machine.py`.
+
 ## Installation Steps
 
 1. Install Happy Hare following the official instructions
-2. During install, select:
-   - MMU Type: **Other** (or closest match)
-   - Selector Type: **VirtualSelector**
-   - Number of gates: **2**
-   - Encoder: **No**
-   - Servo: **No**
+2. During install, select **Fox Feeder v1.0** (once the vendor preset is merged)
+   - Or select **Other** and manually apply the FoxFeeder config files
 3. Copy these config files to your Happy Hare config directory:
    - `mmu.cfg` — MCU and pin aliases
    - `mmu_hardware.cfg` — Hardware definitions
@@ -154,9 +169,8 @@ comparing the pin assignments:
 | Gear 1 uart | PC7 | PC7 |
 
 **The Fox Feeder PCU appears to use the same (or very similar) board as the BTT
-MMB CAN v1.0.** This means it may be possible to use the `BoxTurtle` vendor preset
-during Happy Hare installation and simply adjust the number of gates to 2.
+MMB CAN v1.0.** This is useful for pin reference, but Fox Feeder has its own
+vendor preset — it is NOT a modified BoxTurtle.
 
 If the board is indeed a BTT MMB CAN, there are additional pins available for
-pre-gate sensors, NeoPixels, and even espooler control that the current Fox Feeder
-config doesn't use.
+pre-gate sensors and NeoPixels that the current Fox Feeder config doesn't use.
