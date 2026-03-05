@@ -4,7 +4,7 @@
 
 This document specifies a **ball-sprag one-way clutch** to replace the current printed TPU pinwheel roller clutch in the Fox Feeder MMU. The mechanism allows filament to feed freely toward the toolhead while mechanically preventing backflow when the lane is parked.
 
-**Status: PAUSED — pending Rob's input on one-way clutch feasibility (see Known Blocker and Open Questions below).**
+**Status: PARTIALLY UNBLOCKED — Rob's test used HK0509 needle roller bearings (high free-direction drag). Ball-sprag has fundamentally lower drag and is worth prototyping. See Known Blocker section for details.**
 
 ---
 
@@ -12,7 +12,11 @@ This document specifies a **ball-sprag one-way clutch** to replace the current p
 
 ### Rob's Finding
 
-Rob has previously tested **commercial one-way clutch bearings** on the Fox Feeder and rejected them. The problem: even in the "free spin" direction, these bearings have enough residual drag to **unspool filament from the spool** when the lane is parked. The drag is small in absolute terms, but filament on a spool is essentially a zero-load system — any friction on the roller translates directly into pulling filament off the reel.
+Rob tested **HK0509 needle roller one-way bearings** (5x9x9mm, drawn-cup type) — the same dimensions as the existing standard needle bearings in the BOM, intended as a direct drop-in replacement. The result: even in the "free spin" direction, the bearings had enough residual drag to **unspool filament from the spool**.
+
+**Why HK-series bearings are particularly draggy:** Drawn-cup needle roller one-way bearings lock by tilting their needle rollers to wedge against the races. In the "free" direction, those same needles still maintain rolling contact with both the inner shaft and outer cup — they never fully disengage. This is inherent to the needle roller one-way design and produces noticeably higher free-direction drag than other clutch types (ball-sprag, cam clutch, etc.).
+
+**Key implication:** Rob's test rules out needle roller one-way bearings specifically, but does not necessarily rule out all one-way clutch approaches. A ball-sprag mechanism (where balls roll to a wide gap and lose contact pressure) would have fundamentally lower free-direction drag. Whether it's low *enough* for this application is the open question.
 
 ### The Three-State Problem
 
@@ -28,9 +32,14 @@ A passive one-way clutch only has two states: locked in one direction, free in t
 
 ### Impact on This Design
 
-The ball-sprag design proposed below has the **same fundamental limitation**. Even if the ramp geometry is optimized for minimal free-direction drag, there will still be some rolling resistance from balls contacting the dowel and pocket surfaces. Whether this is low enough to avoid unspooling is an open question that depends on the specific details of Rob's earlier testing.
+Now that we know Rob tested HK-series needle roller bearings specifically, the ball-sprag design is **not necessarily blocked by the same issue**. Ball-sprag clutches have a fundamentally different disengagement mechanism — balls roll to the wide end of the ramp and lose contact pressure, whereas needle rollers maintain contact in both directions.
 
-**This design should not proceed to CAD/printing until the open questions below are answered.**
+However, the ball-sprag will still have *some* free-direction drag from:
+- Ball weight resting on the dowel surface (gravity)
+- Residual contact between balls and ramp pocket walls
+- Any filament dust acting as an abrasive paste
+
+**Recommendation:** The ball-sprag approach is worth prototyping with a test coupon to measure actual free-direction drag. If drag is perceptible by hand, it will unspool filament. If it spins freely by hand, it's worth a live filament test.
 
 ---
 
@@ -211,23 +220,19 @@ Before finalizing the CAD for printing:
 - Tightly wound spring around shaft, tightens in one direction
 - **Deferred because:** Requires a specific sourced spring (not printable), adds a sourcing/specification requirement. Could be revisited if ball-sprag proves insufficient for high-torque scenarios.
 
-### D. Commercial One-Way Bearings
-- Off-the-shelf needle roller one-way bearings (e.g., HF0612)
-- **Deferred because:** Adds cost ($2-5 per lane), requires specific shaft tolerances, goes against the "printable + cheap" philosophy. Good fallback if printed solution underperforms.
+### D. Commercial Needle Roller One-Way Bearings (HK0509)
+- Off-the-shelf drawn-cup needle roller one-way bearings, 5x9x9mm
+- **Tested and rejected by Rob:** Direct drop-in for existing 5x9x9 bearing slots, but free-direction drag was too high — caused filament to unspool from the spool. Needle roller one-way bearings maintain roller contact in both directions, making residual drag an inherent limitation of this bearing type.
 
 ---
 
 ## Open Questions for Rob
 
-Before proceeding with any one-way clutch design (ball-sprag or otherwise), we need Rob's input on his earlier testing:
+Now that we know Rob tested HK0509 needle roller one-way bearings, some questions are answered but others remain:
 
-1. **Which specific bearings did you try?**
-   - Needle-roller type (HF0306, HF0406, HF0612)?
-   - Ball-sprag type (CSK series)?
-   - Something else (cam clutch, wrap spring)?
-   - What shaft diameter were they on?
+1. ~~**Which specific bearings did you try?**~~ **ANSWERED:** HK0509 drawn-cup needle roller one-way bearings, 5x9x9mm. These are the highest-drag type of one-way clutch — ball-sprag designs have fundamentally lower free-direction drag.
 
-2. **What exactly did "unspool" look like?**
+2. **What exactly did "unspool" look like?** (still relevant)
    - Continuous drag — filament slowly feeds off the spool while a different lane is active?
    - Breakaway friction — filament sits still until bumped, then unspools a bit?
    - Retract-direction drag — during intentional unload, the clutch resists and pulls extra filament off the far side?
@@ -244,13 +249,13 @@ Before proceeding with any one-way clutch design (ball-sprag or otherwise), we n
    - Early prototype phase or more recent with current roller geometry?
    - Were the bearings sized for the 5mm dowels or adapted?
 
-**These answers determine whether:** the ball-sprag design is worth pursuing (if the issue was bearing-type-specific), or whether all passive one-way clutch approaches are a dead end for this application (if the issue is fundamental free-direction drag).
+**Updated assessment:** Since Rob tested needle roller bearings (the draggiest one-way clutch type), the ball-sprag approach is worth prototyping. The remaining questions above would still help refine the design but are no longer hard blockers.
 
 ---
 
 ## Next Steps
 
-1. **Get Rob's answers** to the open questions above — this gates all further work
+1. ~~**Get Rob's answers**~~ **Partially answered** — Rob tested HK0509 needle roller bearings. Ball-sprag is a fundamentally different (lower-drag) mechanism and is worth prototyping.
 2. **Design the new Roller Clutch Inner** in CAD with 3 ramped ball pockets
 2. **Print a test coupon** — a simple cylinder with one ramp pocket and a dowel, to dial in the ramp angle before committing to the full part
 3. **Validate with 2.5mm balls** — if engagement is too aggressive, try 2.0mm; if too weak, try 3.0mm
