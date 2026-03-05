@@ -62,8 +62,8 @@ Either option provides more consistent and durable return force than a rubber ba
 **Problem:** The current 0.1A hold current is low enough that parked lane steppers are essentially freewheeling. With stiffer filaments (PETG, nylon, PC), spring-back force in the Bowden tube can cause filament to creep backward in the parked lane.
 
 **Recommendations:**
-- **Short-term (software):** Increase hold current to 0.2A for parked lanes. This adds minimal heat but provides enough detent torque to resist creep.
-- **Long-term (mechanical):** Implement a single-direction sprocket/clutch mechanism (see [sprocket-mechanism-design-spec.md](sprocket-mechanism-design-spec.md)) to mechanically prevent backflow. This eliminates the need for any hold current on parked lanes, reducing power consumption and heat.
+- **Short-term (software) — recommended now:** Increase hold current to 0.2A for parked lanes. This adds minimal heat but provides enough detent torque to resist creep. This is the most practical near-term fix.
+- **Long-term (mechanical) — currently blocked:** A one-way clutch mechanism (see [sprocket-mechanism-design-spec.md](sprocket-mechanism-design-spec.md)) could mechanically prevent backflow. However, Rob has previously tested commercial one-way bearings and found they cause filament unspooling due to free-direction drag. The mechanical approach is paused pending further investigation — the software hold-current fix should be prioritized.
 
 ---
 

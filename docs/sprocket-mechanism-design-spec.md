@@ -4,6 +4,34 @@
 
 This document specifies a **ball-sprag one-way clutch** to replace the current printed TPU pinwheel roller clutch in the Fox Feeder MMU. The mechanism allows filament to feed freely toward the toolhead while mechanically preventing backflow when the lane is parked.
 
+**Status: PAUSED — pending Rob's input on one-way clutch feasibility (see Known Blocker and Open Questions below).**
+
+---
+
+## Known Blocker: Free-Direction Drag & the Three-State Problem
+
+### Rob's Finding
+
+Rob has previously tested **commercial one-way clutch bearings** on the Fox Feeder and rejected them. The problem: even in the "free spin" direction, these bearings have enough residual drag to **unspool filament from the spool** when the lane is parked. The drag is small in absolute terms, but filament on a spool is essentially a zero-load system — any friction on the roller translates directly into pulling filament off the reel.
+
+### The Three-State Problem
+
+The Fox Feeder roller actually needs three distinct behaviors, not two:
+
+| State | Shaft Direction | Required Behavior |
+|-------|----------------|-------------------|
+| **Feeding** (active lane) | Forward → toolhead | Free spin, near-zero drag |
+| **Parked** (inactive lane) | Backward ← Bowden spring-back | **Locked** — prevent creep |
+| **Unloading** (retracting to park) | Backward ← pulling out | Free spin, near-zero drag |
+
+A passive one-way clutch only has two states: locked in one direction, free in the other. This means it cannot distinguish between "parked backward creep" (should lock) and "intentional unload retract" (should be free). Both are backward rotation.
+
+### Impact on This Design
+
+The ball-sprag design proposed below has the **same fundamental limitation**. Even if the ramp geometry is optimized for minimal free-direction drag, there will still be some rolling resistance from balls contacting the dowel and pocket surfaces. Whether this is low enough to avoid unspooling is an open question that depends on the specific details of Rob's earlier testing.
+
+**This design should not proceed to CAD/printing until the open questions below are answered.**
+
 ---
 
 ## Problem Statement
@@ -189,9 +217,41 @@ Before finalizing the CAD for printing:
 
 ---
 
+## Open Questions for Rob
+
+Before proceeding with any one-way clutch design (ball-sprag or otherwise), we need Rob's input on his earlier testing:
+
+1. **Which specific bearings did you try?**
+   - Needle-roller type (HF0306, HF0406, HF0612)?
+   - Ball-sprag type (CSK series)?
+   - Something else (cam clutch, wrap spring)?
+   - What shaft diameter were they on?
+
+2. **What exactly did "unspool" look like?**
+   - Continuous drag — filament slowly feeds off the spool while a different lane is active?
+   - Breakaway friction — filament sits still until bumped, then unspools a bit?
+   - Retract-direction drag — during intentional unload, the clutch resists and pulls extra filament off the far side?
+
+3. **Which direction was "free" and which was "locked"?**
+   - Free forward (feed) / locked backward (retract)?
+   - Or the opposite configuration?
+
+4. **Was the drag noticeable spinning by hand?**
+   - Could you feel resistance in the "free" direction with no filament?
+   - Or was it only apparent with filament loaded and spool inertia amplifying it?
+
+5. **When in the design timeline was this tested?**
+   - Early prototype phase or more recent with current roller geometry?
+   - Were the bearings sized for the 5mm dowels or adapted?
+
+**These answers determine whether:** the ball-sprag design is worth pursuing (if the issue was bearing-type-specific), or whether all passive one-way clutch approaches are a dead end for this application (if the issue is fundamental free-direction drag).
+
+---
+
 ## Next Steps
 
-1. **Design the new Roller Clutch Inner** in CAD with 3 ramped ball pockets
+1. **Get Rob's answers** to the open questions above — this gates all further work
+2. **Design the new Roller Clutch Inner** in CAD with 3 ramped ball pockets
 2. **Print a test coupon** — a simple cylinder with one ramp pocket and a dowel, to dial in the ramp angle before committing to the full part
 3. **Validate with 2.5mm balls** — if engagement is too aggressive, try 2.0mm; if too weak, try 3.0mm
 4. **Update the STLs** once geometry is validated
